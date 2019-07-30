@@ -1,18 +1,22 @@
-const swag = require("../models/swag")
+const swag = require("../models/swag");
+
 module.exports = {
-    add: (req,res) => {
-        const {id} = req.param
-        let { user } = req.session
+  add: (req, res) => {
+    const { id } = req.params;
+    let { user } = req.session;
 
-        const index = user.cart.findIndex(swag => swag.id == id)
+    const index = user.cart.findIndex(swag => swag.id == id);
 
-        if (index === -1) {
-            const selectedSwag = swag.find(swag => swag.id == id)
-            user.cart.push(selectedSwag)
-            user.total += selectedSwag.price
-        }
-        res.status(200).send(user)
-    },
+    if (index === -1) {
+      const selectedSwag = swag.find(swag => swag.id == id);
+
+      user.cart.push(selectedSwag);
+      user.total += selectedSwag.price;
+    }
+
+    res.status(200).send(user);
+  },
+
 
     delete: (req,res) => {
         const { id }= req.params

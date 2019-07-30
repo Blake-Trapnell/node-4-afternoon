@@ -7,6 +7,7 @@ const checkForSession = require("./middlewares/checkForSession")
 const swagCtrl = require('./controllers/swagController')
 const authCtrl = require('./controllers/authController')
 const cartCtrl = require("./controllers/cartController")
+const searchCtrl = require('./controllers/searchController')
 
 
 app.use(express.json())
@@ -16,6 +17,7 @@ app.use(session({
     saveUninitialized: false
 }))
 app.use(checkForSession.check4Session)
+app.use(express.static(`${__dirname}/../build`))
 
 app.post(`/api/register`, authCtrl.register)
 app.post(`/api/login`, authCtrl.login)
@@ -27,5 +29,7 @@ app.get(`/api/swag`, swagCtrl.read)
 app.post(`/api/cart/checkout`, cartCtrl.checkout)
 app.post(`/api/cart/:id`, cartCtrl.add)
 app.delete(`/api/cart/:id`, cartCtrl.delete)
+
+app.get('/api/search', searchCtrl.search)
 
 app.listen(PORT, ()=> console.log(`it's port ${PORT} bitch`))
